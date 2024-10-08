@@ -8,8 +8,24 @@
 
     <body>
         <header>
+            <div class="nav-left">
             <h1><a href = "{% url "home" %}">Django Blog</a></h1>
+            </div>
+            <div class="nav-right">
+                <a href="{% url "post_new" %}">New Blog Post</a>
+            </div>
         </header>
+        {% if user.is_authenticated %}
+        <p>Hi {{ user.username }}!</p>
+        <form action="{% url "logout" %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url "login" %}">Login</a> |
+        <a href="{% url "signup" %}">Sign Up</a>
+        {% endif %}
         <div>
             {% block content %}
             {% endblock content%}
